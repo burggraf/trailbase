@@ -1,7 +1,7 @@
 #![forbid(unsafe_code, clippy::unwrap_used)]
 
 use rust_embed::RustEmbed;
-use trailbase_wasm::http::{HttpError, HttpRoute, IntoBody, IntoResponse, Request, Response, StatusCode, header, routing};
+use trailbase_wasm::http::{header, HttpError, HttpRoute, IntoBody, Request, Response, StatusCode, routing};
 use trailbase_wasm::{Guest, Metadata, export};
 
 #[derive(RustEmbed)]
@@ -16,8 +16,11 @@ enum AssetRoute {
 }
 
 fn asset_route(path: &str, asset_exists: bool) -> AssetRoute {
-  if path.is_empty() || !path.contains('.') {
+  if path.is_empty() || path == "index.html" {
     return AssetRoute::Index;
+  }
+  if !path.contains('.') {
+    return if asset_exists { AssetRoute::Asset } else { AssetRoute::Index };
   }
   if asset_exists {
     return AssetRoute::Asset;
@@ -59,14 +62,20 @@ async fn static_handler(path: &str) -> Result<Response, HttpError> {
     AssetRoute::Index => serve_index(),
     AssetRoute::Asset => {
       let file = file.ok_or_else(|| HttpError::status(StatusCode::NOT_FOUND))?;
-      Response::builder()
-        .header(header::CONTENT_TYPE, file.metadata.mimetype())
-        .header(header::CACHE_CONTROL, "public, max-age=604800, immutable")
+      let mut response = Response::builder().header(header::CONTENT_TYPE, file.metadata.mimetype());
+      if let Some(cache) = cache_control(AssetRoute::Asset) {
+        response = response.header(header::CACHE_CONTROL, cache);
+      }
+      response
         .body(file.data.into_body())
         .map_err(|_| HttpError::status(StatusCode::INTERNAL_SERVER_ERROR))
     }
     AssetRoute::NotFound => Err(HttpError::status(StatusCode::NOT_FOUND)),
   }
+}
+
+fn cache_control(route: AssetRoute) -> Option<&'static str> {
+  (route == AssetRoute::Asset).then_some("public, max-age=604800, immutable")
 }
 
 fn serve_index() -> Result<Response, HttpError> {
@@ -95,6 +104,18 @@ mod tests {
   #[test]
   fn extensionless_paths_use_spa_fallback() {
     assert_eq!(asset_route("settings/users", false), AssetRoute::Index);
+  }
+
+  #[test]
+  fn serves_known_extensionless_embedded_assets() {
+    assert_eq!(asset_route("favicon", true), AssetRoute::Asset);
+  }
+
+  #[test]
+  fn direct_index_is_not_immutable() {
+    assert_eq!(asset_route("index.html", true), AssetRoute::Index);
+    assert_eq!(super::cache_control(AssetRoute::Index), None);
+    assert_eq!(super::cache_control(AssetRoute::Asset), Some("public, max-age=604800, immutable"));
   }
 
   #[test]
