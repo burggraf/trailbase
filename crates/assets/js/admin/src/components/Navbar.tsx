@@ -44,27 +44,25 @@ import {
 } from "@/components/ui/sidebar";
 import logo from "@/assets/favicon.svg";
 import { adminPath } from "@/lib/admin-base";
-
-const BASE = import.meta.env.BASE_URL;
 const groups = [
   [
     "Data",
     [
-      [adminPath(BASE, "/table/"), TbOutlineDatabase, "Tables"],
-      [adminPath(BASE, "/editor"), TbOutlineEdit, "SQL Editor"],
-      [adminPath(BASE, "/erd"), TbOutlineChartDots3, "ERD"],
+      [adminPath("/table/"), TbOutlineDatabase, "Tables"],
+      [adminPath("/editor"), TbOutlineEdit, "SQL Editor"],
+      [adminPath("/erd"), TbOutlineChartDots3, "ERD"],
     ],
   ],
   [
     "Operate",
     [
-      [adminPath(BASE, "/auth"), TbOutlineUsers, "Accounts"],
-      [adminPath(BASE, "/wasm/"), TbOutlinePackage, "WASM"],
-      [adminPath(BASE, "/logs"), TbOutlineTimeline, "Logs"],
-      [adminPath(BASE, "/openapi"), TbOutlineApi, "OpenAPI"],
+      [adminPath("/auth"), TbOutlineUsers, "Accounts"],
+      [adminPath("/wasm/"), TbOutlinePackage, "WASM"],
+      [adminPath("/logs"), TbOutlineTimeline, "Logs"],
+      [adminPath("/openapi"), TbOutlineApi, "OpenAPI"],
     ],
   ],
-  ["System", [[adminPath(BASE, "/settings/"), TbOutlineSettings, "Settings"]]],
+  ["System", [[adminPath("/settings/"), TbOutlineSettings, "Settings"]]],
 ] as const;
 export type NavbarContextT = {
   dirty: Accessor<boolean>;
@@ -111,8 +109,8 @@ export function Navbar() {
       <SidebarHeader>
         <a
           class="flex h-9 items-center gap-2 px-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0"
-          href={`${BASE}/`}
-          onClick={(e: MouseEvent) => onClick(e, `${BASE}/`)}
+          href={adminPath("/")}
+          onClick={(e: MouseEvent) => onClick(e, adminPath("/"))}
         >
           <img class="size-7 shrink-0" src={logo} alt="" />
           <span class="truncate text-base font-semibold group-data-[collapsible=icon]:hidden">

@@ -10,9 +10,11 @@ describe("adminBasePath", () => {
   });
 
   test("joins base and route with one slash", () => {
-    expect(adminPath("/_/admin-refresh/", "/table/")).toBe(
+    expect(adminPath("/table/", "/_/admin-refresh/")).toBe(
       "/_/admin-refresh/table/",
     );
-    expect(adminPath("/", "/table")).toBe("/table");
+    expect(adminPath("/table", "/")).toBe("/table");
+    expect(adminPath("/", "/_/admin-refresh/")).toBe("/_/admin-refresh/");
+    expect(adminPath("/", "/")).toBe("/");
   });
 });

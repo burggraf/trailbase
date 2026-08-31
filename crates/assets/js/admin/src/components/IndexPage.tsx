@@ -25,47 +25,46 @@ type Element = {
   href: string;
 };
 
-const BASE = import.meta.env.BASE_URL;
 const elements = [
   {
     icon: TbOutlineDatabase,
     content: "Browse, create or alter your Tables, Indexes, and Views.",
-    href: adminPath(BASE, "/table"),
+    href: adminPath("/table"),
   },
   {
     icon: TbOutlineEdit,
     content: "Untethered script access letting you execute arbitrary SQL.",
-    href: adminPath(BASE, "/editor"),
+    href: adminPath("/editor"),
   },
   {
     icon: TbOutlineChartDots3,
     content: "Visualize Database Schema as Entity-Relationship-Diagram",
-    href: adminPath(BASE, "/erd"),
+    href: adminPath("/erd"),
   },
   {
     icon: TbOutlineUsers,
     content: "Browse and manage your application's user registry.",
-    href: adminPath(BASE, "/auth"),
+    href: adminPath("/auth"),
   },
   {
     icon: TbOutlinePackage,
     content: "Loaded WASM modules",
-    href: adminPath(BASE, "/wasm"),
+    href: adminPath("/wasm"),
   },
   {
     icon: TbOutlineTimeline,
     content: "Access logs for your application",
-    href: adminPath(BASE, "/logs"),
+    href: adminPath("/logs"),
   },
   {
     icon: TbOutlineApi,
     content: "OpenAPI documentation",
-    href: adminPath(BASE, "/openapi"),
+    href: adminPath("/openapi"),
   },
   {
     icon: TbOutlineSettings,
     content: "Server settings",
-    href: adminPath(BASE, "/settings"),
+    href: adminPath("/settings"),
   },
 ] as Element[];
 
@@ -156,12 +155,12 @@ export function IndexPage() {
             <FactCard
               title="Users"
               content={`${dashboardFetch.data!.numUsers}`}
-              href={`${BASE}/auth`}
+              href={adminPath("/auth")}
             />
             <FactCard
               title="Tables & Views"
               content={`${dashboardFetch.data!.numTables + dashboardFetch.data!.numViews}`}
-              href={`${BASE}/table`}
+              href={adminPath("/table")}
             />
             <FactCard
               title="Size"
