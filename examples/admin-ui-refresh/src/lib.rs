@@ -2,7 +2,9 @@
 
 use rust_embed::RustEmbed;
 use trailbase_wasm::http::{header, HttpError, HttpRoute, IntoBody, Request, Response, StatusCode, routing};
-use trailbase_wasm::{Guest, Metadata, export};
+use trailbase_wasm::{Guest, Metadata};
+#[cfg(target_os = "wasi")]
+use trailbase_wasm::export;
 
 #[derive(RustEmbed)]
 #[folder = "assets/"]
@@ -50,6 +52,7 @@ impl Guest for Endpoints {
   }
 }
 
+#[cfg(target_os = "wasi")]
 export!(Endpoints);
 
 async fn root_handler(_: Request) -> Result<Response, HttpError> {
