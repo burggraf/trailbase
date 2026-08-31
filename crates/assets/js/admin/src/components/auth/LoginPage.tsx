@@ -5,6 +5,7 @@ import { FetchError, type MultiFactorAuthToken } from "trailbase";
 import { createWritableMemo } from "@solid-primitives/memo";
 
 import { client, $user } from "@/lib/client";
+import { adminBasePath } from "@/lib/admin-base";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -230,7 +231,7 @@ function OtpLoginForm(props: { otpSent: Signal<string | null> }) {
   const message = urlParams.get("loginMessage");
 
   async function requestOtp(email: string) {
-    await client.requestOtp(email, { redirectUri: "/_/admin" });
+    await client.requestOtp(email, { redirectUri: adminBasePath() });
     setOtpSent(email);
   }
 

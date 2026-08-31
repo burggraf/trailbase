@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 import { $user } from "@/lib/client";
 import { initializeTheme } from "@/lib/theme";
+import { adminBasePath } from "@/lib/admin-base";
 const queryClient = new QueryClient();
 function WrapWithNav(props: RouteSectionProps) {
   const [dirty, setDirty] = createSignal(false);
@@ -71,7 +72,7 @@ const App: Component = () => {
           </ErrorBoundary>
         }
       >
-        <Router base="/_/admin" root={WrapWithNav}>
+        <Router base={adminBasePath()} root={WrapWithNav}>
           <Route path="/" component={IndexPage} />
           <Route path="/table/:table?" component={TablePage} />
           <Route path="/auth" component={AccountsPage} />

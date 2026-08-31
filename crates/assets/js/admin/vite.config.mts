@@ -13,7 +13,7 @@ const DEFAULT_CSP = [
 ];
 
 export default defineConfig({
-  base: "/_/admin",
+  base: process.env.TRAILBASE_ADMIN_BASE ?? "/_/admin",
   plugins: [
     solidPlugin(),
     tsconfigPaths(),
