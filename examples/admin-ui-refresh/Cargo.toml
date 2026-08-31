@@ -1,0 +1,16 @@
+[workspace]
+
+[package]
+name = "trailbase-admin-ui-refresh-component"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+description = "TrailBase Admin UI refresh component"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+rust-embed = { version = "^8.12.0", default-features = false, features = ["mime-guess"] }
+trailbase-wasm = { package = "trailbase-wasm", path = "../../crates/wasm-runtime-guest" }
