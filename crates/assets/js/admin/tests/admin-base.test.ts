@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { adminBasePath } from "@/lib/admin-base";
+import { adminBasePath, adminPath } from "@/lib/admin-base";
 
 describe("adminBasePath", () => {
   test.each([
@@ -7,5 +7,12 @@ describe("adminBasePath", () => {
     ["/", ""],
   ])("normalizes %s", (base, expected) => {
     expect(adminBasePath(base)).toBe(expected);
+  });
+
+  test("joins base and route with one slash", () => {
+    expect(adminPath("/_/admin-refresh/", "/table/")).toBe(
+      "/_/admin-refresh/table/",
+    );
+    expect(adminPath("/", "/table")).toBe("/table");
   });
 });

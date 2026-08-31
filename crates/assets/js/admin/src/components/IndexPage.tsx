@@ -17,6 +17,7 @@ import type { SqlValue } from "@/lib/value";
 
 import { Header } from "@/components/Header";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { adminPath } from "@/lib/admin-base";
 
 type Element = {
   icon: IconTypes;
@@ -29,42 +30,42 @@ const elements = [
   {
     icon: TbOutlineDatabase,
     content: "Browse, create or alter your Tables, Indexes, and Views.",
-    href: `${BASE}/table`,
+    href: adminPath(BASE, "/table"),
   },
   {
     icon: TbOutlineEdit,
     content: "Untethered script access letting you execute arbitrary SQL.",
-    href: `${BASE}/editor`,
+    href: adminPath(BASE, "/editor"),
   },
   {
     icon: TbOutlineChartDots3,
     content: "Visualize Database Schema as Entity-Relationship-Diagram",
-    href: `${BASE}/erd`,
+    href: adminPath(BASE, "/erd"),
   },
   {
     icon: TbOutlineUsers,
     content: "Browse and manage your application's user registry.",
-    href: `${BASE}/auth`,
+    href: adminPath(BASE, "/auth"),
   },
   {
     icon: TbOutlinePackage,
     content: "Loaded WASM modules",
-    href: `${BASE}/wasm`,
+    href: adminPath(BASE, "/wasm"),
   },
   {
     icon: TbOutlineTimeline,
     content: "Access logs for your application",
-    href: `${BASE}/logs`,
+    href: adminPath(BASE, "/logs"),
   },
   {
     icon: TbOutlineApi,
     content: "OpenAPI documentation",
-    href: `${BASE}/openapi`,
+    href: adminPath(BASE, "/openapi"),
   },
   {
     icon: TbOutlineSettings,
     content: "Server settings",
-    href: `${BASE}/settings`,
+    href: adminPath(BASE, "/settings"),
   },
 ] as Element[];
 

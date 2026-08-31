@@ -43,27 +43,28 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import logo from "@/assets/favicon.svg";
+import { adminPath } from "@/lib/admin-base";
 
 const BASE = import.meta.env.BASE_URL;
 const groups = [
   [
     "Data",
     [
-      [`${BASE}/table/`, TbOutlineDatabase, "Tables"],
-      [`${BASE}/editor`, TbOutlineEdit, "SQL Editor"],
-      [`${BASE}/erd`, TbOutlineChartDots3, "ERD"],
+      [adminPath(BASE, "/table/"), TbOutlineDatabase, "Tables"],
+      [adminPath(BASE, "/editor"), TbOutlineEdit, "SQL Editor"],
+      [adminPath(BASE, "/erd"), TbOutlineChartDots3, "ERD"],
     ],
   ],
   [
     "Operate",
     [
-      [`${BASE}/auth`, TbOutlineUsers, "Accounts"],
-      [`${BASE}/wasm/`, TbOutlinePackage, "WASM"],
-      [`${BASE}/logs`, TbOutlineTimeline, "Logs"],
-      [`${BASE}/openapi`, TbOutlineApi, "OpenAPI"],
+      [adminPath(BASE, "/auth"), TbOutlineUsers, "Accounts"],
+      [adminPath(BASE, "/wasm/"), TbOutlinePackage, "WASM"],
+      [adminPath(BASE, "/logs"), TbOutlineTimeline, "Logs"],
+      [adminPath(BASE, "/openapi"), TbOutlineApi, "OpenAPI"],
     ],
   ],
-  ["System", [[`${BASE}/settings/`, TbOutlineSettings, "Settings"]]],
+  ["System", [[adminPath(BASE, "/settings/"), TbOutlineSettings, "Settings"]]],
 ] as const;
 export type NavbarContextT = {
   dirty: Accessor<boolean>;
